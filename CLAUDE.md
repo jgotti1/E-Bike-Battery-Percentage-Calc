@@ -10,6 +10,8 @@ A static, single-page e-bike battery percentage calculator, designed mobile-firs
 
 Hosted on Vercel (project `ebike-battery-percent`, team `john-74e3`) at https://ebikebattery.margotticode.com. The Vercel project is connected to the GitHub repo `jgotti1/E-Bike-Battery-Percentage-Calc`, so pushing to `main` deploys to production automatically. Manual deploy: `npx vercel deploy --prod`.
 
+Usage tracking uses Vercel Web Analytics (script tag at the bottom of `index.html`, data in the Vercel dashboard under the project's Analytics tab). It has no visitor identifiers and needs no cookie banner.
+
 DNS is at Bluehost (A record `ebikebattery` -> `76.76.21.21`). The name `battery` was abandoned because Bluehost never published that record, so don't reuse it.
 
 ## Architecture
