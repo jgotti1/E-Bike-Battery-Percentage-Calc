@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport"
-       content="width=device-width, initial-scale=1.0" />
+       content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>E-Bike Battery Calculator</title>
 
   <!-- Bootstrap CSS -->
@@ -30,18 +30,36 @@
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     }
 
+    /* Mobile first: the card fills the whole screen */
     .app-card {
-      max-width: 440px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      border: 0;
+      border-radius: 0;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (min-width: 576px) {
+      body {
+        padding: 2rem 1rem;
+      }
+
+      .app-card {
+        max-width: 440px;
+        min-height: 0;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      }
     }
 
     .app-header {
       background: linear-gradient(135deg, #0f172a, #1e3a8a);
       color: #fff;
-      padding: 1.5rem;
+      padding: calc(1.75rem + env(safe-area-inset-top)) 1.25rem 1.75rem;
       display: flex;
       align-items: center;
       gap: 1rem;
@@ -70,12 +88,15 @@
     }
 
     .app-body {
-      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem 1.25rem calc(1.5rem + env(safe-area-inset-bottom));
       background: #fff;
     }
 
     .form-label {
-      font-size: 0.85rem;
+      font-size: 0.95rem;
       font-weight: 600;
       color: var(--ink);
       margin-bottom: 0.35rem;
@@ -89,7 +110,9 @@
     .form-select,
     .input-group-text {
       border-color: var(--line);
-      padding: 0.65rem 0.85rem;
+      padding: 0.85rem 1rem;
+      font-size: 1.125rem; /* 16px+ stops iOS zoom on focus */
+      min-height: 3.5rem;
     }
 
     .input-group-text {
@@ -107,9 +130,11 @@
     .btn-calc {
       background: var(--brand);
       border: 0;
-      border-radius: 10px;
+      border-radius: 12px;
       color: #fff;
       font-weight: 600;
+      font-size: 1.15rem;
+      min-height: 3.75rem;
       padding: 0.75rem;
       transition: background 0.15s;
     }
@@ -122,7 +147,7 @@
 
     .result-box {
       margin-top: 1.5rem;
-      padding: 1.25rem;
+      padding: 1.5rem 1.25rem;
       border: 1px solid var(--line);
       border-radius: 12px;
       background: #f8fafc;
@@ -134,7 +159,7 @@
     }
 
     .result-percent {
-      font-size: 3.5rem;
+      font-size: 4.5rem;
       font-weight: 800;
       line-height: 1;
       letter-spacing: -0.02em;
@@ -150,8 +175,8 @@
     }
 
     .gauge {
-      height: 12px;
-      margin: 1rem 0 0.75rem;
+      height: 16px;
+      margin: 1.25rem 0 0.75rem;
       border-radius: 999px;
       background: var(--line);
       overflow: hidden;
@@ -164,7 +189,7 @@
     }
 
     .result-meta {
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       color: var(--muted);
     }
 
@@ -174,8 +199,9 @@
     }
 
     .footnote {
-      margin-top: 1.25rem;
-      font-size: 0.78rem;
+      margin: auto 0 0;
+      padding-top: 1.5rem;
+      font-size: 0.8rem;
       line-height: 1.5;
       color: var(--muted);
     }
@@ -183,7 +209,7 @@
 </head>
 
 <body>
-  <div class="container py-4 py-md-5 d-flex justify-content-center">
+  <div class="d-flex justify-content-center">
     <main class="app-card card w-100">
 
       <header class="app-header">

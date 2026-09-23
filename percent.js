@@ -65,6 +65,7 @@ function showResult(html) {
   const resultDiv = document.getElementById("result");
   resultDiv.hidden = false;
   resultDiv.innerHTML = html;
+  resultDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 document.getElementById("batteryForm").addEventListener("submit", function (e) {
