@@ -198,6 +198,45 @@
       font-weight: 600;
     }
 
+    .bike-art {
+      flex: 1;
+      min-height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 1rem;
+    }
+
+    .bike-art svg {
+      width: 100%;
+      max-width: 340px;
+      height: auto;
+    }
+
+    .bike-art .frame {
+      stroke: #1e293b;
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .bike-art .tire {
+      stroke: #1e293b;
+      stroke-width: 7;
+      fill: none;
+    }
+
+    .bike-art .rim {
+      stroke: #94a3b8;
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    #bikeFill {
+      transition: width 0.5s ease, fill 0.3s;
+    }
+
     .footnote {
       margin: auto 0 0;
       padding-top: 1.5rem;
@@ -281,6 +320,37 @@
              role="status"
              aria-live="polite"
              hidden></div>
+
+        <div class="bike-art"
+             aria-hidden="true">
+          <svg viewBox="0 0 320 170">
+            <ellipse cx="160" cy="162" rx="135" ry="5" fill="#e2e8f0" />
+            <!-- wheels -->
+            <circle class="tire" cx="70" cy="118" r="38" />
+            <circle class="rim" cx="70" cy="118" r="30" />
+            <circle class="tire" cx="250" cy="118" r="38" />
+            <circle class="rim" cx="250" cy="118" r="30" />
+            <path class="rim" d="M70 88v60M40 118h60M49 97l42 42M91 97l-42 42M250 88v60M220 118h60M229 97l42 42M271 97l-42 42" />
+            <!-- frame -->
+            <path class="frame" d="M70 118 150 118 132 64 222 64 232 84 M150 118 222 70 M132 64 70 118 M232 84 250 118" />
+            <!-- seat, bars -->
+            <path class="frame" d="M120 54h26M132 64v-10M222 64l-4-22M206 42h28" />
+            <!-- hub motor and crank -->
+            <circle cx="70" cy="118" r="11" fill="#2563eb" />
+            <circle cx="150" cy="118" r="6" fill="#1e293b" />
+            <!-- battery pack on the down tube -->
+            <g transform="translate(186 95) rotate(-33.7)">
+              <rect x="-33" y="-10" width="66" height="20" rx="6" fill="#0f172a" />
+              <rect id="bikeFill"
+                    x="-29"
+                    y="-6"
+                    width="58"
+                    height="12"
+                    rx="3"
+                    fill="#2563eb" />
+            </g>
+          </svg>
+        </div>
 
         <p class="footnote">
           Lithium voltage isn't linear, so this uses a per-cell discharge curve. Measure with the bike at rest

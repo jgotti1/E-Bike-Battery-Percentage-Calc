@@ -83,6 +83,10 @@ document.getElementById("batteryForm").addEventListener("submit", function (e) {
   const perCell = (current / cells).toFixed(2);
   const color = percent >= 50 ? "var(--good)" : percent >= 20 ? "var(--warn)" : "var(--bad)";
 
+  const fill = document.getElementById("bikeFill");
+  fill.setAttribute("width", (58 * percent) / 100);
+  fill.style.fill = color;
+
   showResult(`
     <div class="result-percent" style="color: ${color};">${percent}%</div>
     <div class="result-label">Battery remaining</div>
