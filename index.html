@@ -207,6 +207,43 @@
       font-weight: 600;
     }
 
+    .support-box {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border: 1px solid #dbe6fb;
+      border-radius: 12px;
+      background: #eff4ff;
+      text-align: center;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+
+    .support-box strong {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .support-box p {
+      margin: 0 0 0.5rem;
+    }
+
+    .support-links a {
+      display: inline-block;
+      margin: 0.25rem 0.25rem 0;
+      padding: 0.5rem 0.9rem;
+      border-radius: 999px;
+      background: var(--brand);
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .support-links a:hover {
+      background: var(--brand-dark);
+    }
+
     .bike-art {
       flex: 1;
       min-height: 190px;
@@ -246,13 +283,6 @@
       transition: width 0.5s ease, fill 0.3s;
     }
 
-    .footnote {
-      margin: auto 0 0;
-      padding-top: 1.5rem;
-      font-size: 0.8rem;
-      line-height: 1.5;
-      color: var(--muted);
-    }
   </style>
 </head>
 
@@ -361,10 +391,18 @@
           </svg>
         </div>
 
-        <p class="footnote">
-          Lithium voltage isn't linear, so this uses a per-cell discharge curve. Measure with the bike at rest
-          for the best accuracy, since voltage sags under load.
-        </p>
+        <div class="support-box">
+          <strong>Like my app? Support a developer to keep me creating!</strong>
+          <p>Check out my Etsy store if you need accessories for your E-Bike, or buy an under-caffeinated developer a cup of coffee. Enjoy!</p>
+          <div class="support-links">
+            <a href="https://jmcreationshub.etsy.com"
+               target="_blank"
+               rel="noopener">Etsy Store</a>
+            <a href="https://venmo.com/John-Margotti"
+               target="_blank"
+               rel="noopener">Venmo @John-Margotti</a>
+          </div>
+        </div>
       </div>
     </main>
   </div>
