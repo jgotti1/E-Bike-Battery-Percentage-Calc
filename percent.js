@@ -1,42 +1,91 @@
+// Approximate resting per-cell voltage -> state of charge for Li-ion (sorted ascending).
+const CELL_CURVE = [
+  [3.0, 0],
+  [3.3, 5],
+  [3.5, 10],
+  [3.6, 20],
+  [3.7, 30],
+  [3.8, 45],
+  [3.9, 60],
+  [3.95, 70],
+  [4.0, 78],
+  [4.1, 90],
+  [4.2, 100],
+];
+
+function cellVoltageToPercent(v) {
+  const first = CELL_CURVE[0];
+  const last = CELL_CURVE[CELL_CURVE.length - 1];
+  if (v <= first[0]) return 0;
+  if (v >= last[0]) return 100;
+
+  for (let i = 1; i < CELL_CURVE.length; i++) {
+    const [v1, p1] = CELL_CURVE[i];
+    if (v <= v1) {
+      const [v0, p0] = CELL_CURVE[i - 1];
+      return p0 + ((v - v0) / (v1 - v0)) * (p1 - p0);
+    }
+  }
+}
+
+// Lectric bikes and battery cells in series. Verify against your battery label.
+const BIKES = [
+  { name: "Lectric XP4 750", cells: 13 },
+  { name: "Lectric XP4 500", cells: 13 },
+  { name: "Lectric XPress 750", cells: 13 },
+  { name: "Lectric XPeak 2.0", cells: 13 },
+  { name: "Lectric XPedition", cells: 13 },
+  { name: "Lectric XP 3.0", cells: 13 },
+  { name: "Lectric XP 2.0", cells: 13 },
+  { name: "Lectric XP Trike", cells: 13 },
+  { name: "Lectric XP 1.0", cells: 13 },
+  { name: "Lectric ONE", cells: 13 },
+  // Best guesses, not confirmed. Check the battery label.
+  { name: "Lectric XP Lite 2.0", cells: 13 },
+  { name: "Lectric XP Lite", cells: 10 },
+];
+const CUSTOM = "custom";
+
+const bikeSelect = document.getElementById("bike");
+const cellsGroup = document.getElementById("cellsGroup");
+const cellsInput = document.getElementById("cells");
+
+BIKES.forEach((b, i) => bikeSelect.add(new Option(b.name, i)));
+bikeSelect.add(new Option("Other bike / battery", CUSTOM));
+
+function syncBike() {
+  const custom = bikeSelect.value === CUSTOM;
+  cellsGroup.hidden = !custom;
+  if (!custom) cellsInput.value = BIKES[bikeSelect.value].cells;
+}
+bikeSelect.addEventListener("change", syncBike);
+syncBike();
+
+function showResult(html) {
+  const resultDiv = document.getElementById("result");
+  resultDiv.hidden = false;
+  resultDiv.innerHTML = html;
+}
+
 document.getElementById("batteryForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const min = parseFloat(document.getElementById("minVolts").value);
-  const max = parseFloat(document.getElementById("maxVolts").value);
+  const cells = parseInt(document.getElementById("cells").value, 10);
   const current = parseFloat(document.getElementById("currentVolts").value);
-  const resultDiv = document.getElementById("result");
 
-  if (current < min || current > max) {
-    resultDiv.style.display = "block";
-    resultDiv.className = "text-center mt-4 fw-semibold shadow-sm";
-    resultDiv.style.backgroundColor = "#f9f9f9"; // off-white background
-    resultDiv.style.border = "1px solid #00000022"; // thin soft black border
-    resultDiv.style.color = "#000000"; // black text
-    resultDiv.style.borderRadius = "8px"; // gentle rounding
-    resultDiv.style.padding = "1.5rem"; // comfortable padding
-    resultDiv.innerHTML = `<span style="color: red;">Voltage must be between ${min}V and ${max}V.</span>`;
+  if (!Number.isFinite(cells) || cells < 1 || !Number.isFinite(current) || current <= 0) {
+    showResult('<span class="result-error">Enter a valid cell count and voltage.</span>');
     return;
   }
 
-  const percent = ((current - min) / (max - min)) * 100;
-  const roundedPercent = Math.round(percent);
+  const percent = Math.round(cellVoltageToPercent(current / cells));
+  const perCell = (current / cells).toFixed(2);
+  const color = percent >= 50 ? "var(--good)" : percent >= 20 ? "var(--warn)" : "var(--bad)";
 
-  // ✅ Display the result with off-white background and subtle border
-  resultDiv.style.display = "block";
-  resultDiv.className = "text-center mt-4 fw-semibold shadow-sm";
-  resultDiv.style.backgroundColor = "#f9f9f9"; // off-white (not blue)
-  resultDiv.style.border = "1px solid #00000022"; // thin soft black border
-  resultDiv.style.color = "#000000"; // black text
-  resultDiv.style.borderRadius = "8px"; // gentle rounded corners
-  resultDiv.style.padding = "1.5rem"; // interior spacing
-
-  resultDiv.innerHTML = `
-    <div style="font-size: 4rem; font-weight: bold; line-height: 1;">
-      ${roundedPercent}%
-    </div>
-    <hr class="my-2" style="border-top: 1px solid #00000022; width: 60%; margin: 0.5rem auto;" />
-    <div style="font-size: 1.25rem;">
-      Battery Power Remaining
-    </div>
-  `;
+  showResult(`
+    <div class="result-percent" style="color: ${color};">${percent}%</div>
+    <div class="result-label">Battery remaining</div>
+    <div class="gauge"><div class="gauge-fill" style="width: ${percent}%; background: ${color};"></div></div>
+    <div class="result-meta">${perCell}V per cell</div>
+  `);
 });
