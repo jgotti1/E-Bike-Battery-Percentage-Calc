@@ -22,3 +22,7 @@ DNS is at Bluehost (A record `ebikebattery` -> `76.76.21.21`). The name `battery
 - The two files are coupled through element IDs (`batteryForm`, `bike`, `cellsGroup`, `cells`, `currentVolts`, `result`). Renaming an ID in one file requires updating the other.
 - The result box shows the percentage, a gauge bar, and per-cell voltage, colored green (50%+), amber (20-49%) or red (under 20%) via CSS variables. The battery pack in the bike SVG (`#bikeFill`) is resized and recolored from `percent.js` to match. Set its color with `style.fill`, since SVG attributes don't resolve `var()` reliably.
 - Page order below the form: result box, bike illustration, then a `.support-box` (light blue) linking to the Etsy store (https://jmcreationshub.etsy.com) and Venmo (@John-Margotti). There is no lithium/accuracy footnote by choice.
+
+## Portfolio card
+
+`README.md` ends with a hidden JSON block (`portfolio-card:start` ... `portfolio-card:end`) used by the portfolio site. Keep it in sync when features, tech or URLs change, and keep it valid JSON. Its thumbnail is `docs/preview.jpg`.
